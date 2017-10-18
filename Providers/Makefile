@@ -79,6 +79,7 @@ PROVIDERS+=nxFileInventory
 PROVIDERS+=nxOMSAutomationWorker
 PROVIDERS+=nxOMSAgentNPMConfig
 PROVIDERS+=nxOMSAuditdPlugin
+PROVIDERS+=nxOMSContainers
 else
 PROVIDERS:=nxUser
 PROVIDERS+=nxGroup
