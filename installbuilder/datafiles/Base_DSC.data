@@ -229,6 +229,7 @@ for prov in ${{PROVIDERS}}; do
 done
 
 for prov in ${{DSCPROVIDERS}}; do
+    echo "Working on DSC Provider" ${prov}
     mkdir -p $CONFIG_SYSCONFDIR/${{SHORT_NAME_DSC}}/configuration/schema/MSFT_nx${prov}Resource/ $CONFIG_SYSCONFDIR/${{SHORT_NAME_DSC}}/configuration/registration/MSFT_nx${prov}Resource/
     cp -f /opt/microsoft/${{SHORT_NAME_DSC}}/mof/MSFT_nx${prov}Resource.schema.mof $CONFIG_SYSCONFDIR/${{SHORT_NAME_DSC}}/configuration/schema/MSFT_nx${prov}Resource/
     cp -f /opt/microsoft/${{SHORT_NAME_DSC}}/mof/MSFT_nx${prov}Resource.registration.mof $CONFIG_SYSCONFDIR/${{SHORT_NAME_DSC}}/configuration/registration/MSFT_nx${prov}Resource/

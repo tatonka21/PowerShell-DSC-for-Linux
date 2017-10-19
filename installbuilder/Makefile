@@ -26,6 +26,7 @@ DESCRIPTION=Operations Management Suite Agent Configuration
 RUN_AS_USER=omsagent
 else
 SHORT_NAME=dsc
+SHORT_NAME_DSC=dsc
 LONG_NAME=Windows Powershell Desired State Configuration for Linux
 PROVIDES=dscpackage
 PROVIDERS=
