@@ -216,18 +216,22 @@ cp -f /opt/microsoft/${{SHORT_NAME}}/mof/MSFT_DSCMetaConfiguration.mof $CONFIG_S
 cp -f /opt/microsoft/${{SHORT_NAME}}/mof/MSFT_LogResource.registration.mof  $CONFIG_SYSCONFDIR/${{SHORT_NAME}}/configuration/registration/MSFT_LogResource
 cp -f /opt/microsoft/${{SHORT_NAME}}/mof/MSFT_LogResource.schema.mof  $CONFIG_SYSCONFDIR/${{SHORT_NAME}}/configuration/schema/MSFT_LogResource
 
+echo "~~~~~~~~~ Iterating on Providers - size = " ${#PROVIDERS[@]}
 for prov in ${{PROVIDERS}}; do
 #if BUILD_OMS == 1
     cp -f /opt/microsoft/${{SHORT_NAME}}/etc/MSFT_nx${prov}Resource.reg $OMI_REGISTER_DIR/root-oms
 #else
     cp -f /opt/microsoft/${{SHORT_NAME}}/etc/MSFT_nx${prov}Resource.reg $OMI_REGISTER_DIR/root-Microsoft-DesiredStateConfiguration
 #endif
+    echo "Working on Provider" ${prov}
     mkdir -p $CONFIG_SYSCONFDIR/${{SHORT_NAME}}/configuration/schema/MSFT_nx${prov}Resource/ $CONFIG_SYSCONFDIR/${{SHORT_NAME}}/configuration/registration/MSFT_nx${prov}Resource/
     cp -f /opt/microsoft/${{SHORT_NAME}}/mof/MSFT_nx${prov}Resource.schema.mof $CONFIG_SYSCONFDIR/${{SHORT_NAME}}/configuration/schema/MSFT_nx${prov}Resource/
     cp -f /opt/microsoft/${{SHORT_NAME}}/mof/MSFT_nx${prov}Resource.registration.mof $CONFIG_SYSCONFDIR/${{SHORT_NAME}}/configuration/registration/MSFT_nx${prov}Resource/
     ln -fs /opt/microsoft/${{SHORT_NAME}}/lib/libMSFT_nx${prov}Resource.so $OMI_LIB/libMSFT_nx${prov}Resource.so
 done
+echo "~~~~~~~~~ Iterating on Providers DONE"
 
+echo "~~~~~~~~~ Iterating on DSC Providers - size = " ${#DSCPROVIDERS[@]}
 for prov in ${{DSCPROVIDERS}}; do
     echo "Working on DSC Provider" ${prov}
     mkdir -p $CONFIG_SYSCONFDIR/${{SHORT_NAME_DSC}}/configuration/schema/MSFT_nx${prov}Resource/ $CONFIG_SYSCONFDIR/${{SHORT_NAME_DSC}}/configuration/registration/MSFT_nx${prov}Resource/
@@ -235,6 +239,7 @@ for prov in ${{DSCPROVIDERS}}; do
     cp -f /opt/microsoft/${{SHORT_NAME_DSC}}/mof/MSFT_nx${prov}Resource.registration.mof $CONFIG_SYSCONFDIR/${{SHORT_NAME_DSC}}/configuration/registration/MSFT_nx${prov}Resource/
     ln -fs /opt/microsoft/${{SHORT_NAME_DSC}}/lib/libMSFT_nx${prov}Resource.so $OMI_LIB/libMSFT_nx${prov}Resource.so
 done
+echo "~~~~~~~~~ Iterating on DSC Providers DONE"
 
 chmod a+rx $CONFIG_SYSCONFDIR/${{SHORT_NAME}}/
 chmod a+rx $CONFIG_SYSCONFDIR/${{SHORT_NAME}}/configuration

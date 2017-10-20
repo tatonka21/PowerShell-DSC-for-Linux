@@ -22,6 +22,7 @@ SHORT_NAME_DSC=dsc
 LONG_NAME=Operations Management Suite Agent Configuration
 PROVIDES=dscpkg
 PROVIDERS=
+DSCPROVIDERS=
 DESCRIPTION=Operations Management Suite Agent Configuration
 RUN_AS_USER=omsagent
 else
@@ -30,6 +31,7 @@ SHORT_NAME_DSC=dsc
 LONG_NAME=Windows Powershell Desired State Configuration for Linux
 PROVIDES=dscpackage
 PROVIDERS=
+DSCPROVIDERS=
 DESCRIPTION=Windows Powershell Desired State Configuration for Linux
 RUN_AS_USER=root
 endif
