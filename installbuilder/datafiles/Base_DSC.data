@@ -216,6 +216,50 @@ cp -f /opt/microsoft/${{SHORT_NAME}}/mof/MSFT_DSCMetaConfiguration.mof $CONFIG_S
 cp -f /opt/microsoft/${{SHORT_NAME}}/mof/MSFT_LogResource.registration.mof  $CONFIG_SYSCONFDIR/${{SHORT_NAME}}/configuration/registration/MSFT_LogResource
 cp -f /opt/microsoft/${{SHORT_NAME}}/mof/MSFT_LogResource.schema.mof  $CONFIG_SYSCONFDIR/${{SHORT_NAME}}/configuration/schema/MSFT_LogResource
 
+ifeq ($(BUILD_OMS),BUILD_OMS)
+PROVIDERS:=nxOMSPerfCounter
+PROVIDERS+=nxOMSSyslog
+PROVIDERS+=nxOMSCustomLog
+PROVIDERS+=nxOMSSudoCustomLog
+PROVIDERS+=nxOMSGenerateInventoryMof
+PROVIDERS+=nxService
+PROVIDERS+=nxPackage
+PROVIDERS+=nxUser
+PROVIDERS+=nxGroup
+PROVIDERS+=nxOMSPlugin
+PROVIDERS+=nxAvailableUpdates
+PROVIDERS+=nxOMSKeyMgmt
+PROVIDERS+=nxFileInventory
+PROVIDERS+=nxOMSAutomationWorker
+PROVIDERS+=nxOMSAgentNPMConfig
+PROVIDERS+=nxOMSAuditdPlugin
+PROVIDERS+=nxOMSContainers
+else
+PROVIDERS:=nxUser
+PROVIDERS+=nxGroup
+PROVIDERS+=nxService
+PROVIDERS+=nxPackage
+PROVIDERS+=nxIPAddress
+PROVIDERS+=nxComputer
+PROVIDERS+=nxFirewall
+PROVIDERS+=nxDNSServerAddress
+PROVIDERS+=nxMySqlDatabase
+PROVIDERS+=nxMySqlGrant
+PROVIDERS+=nxMySqlUser
+PROVIDERS+=nxAvailableUpdates
+PROVIDERS+=nxFileInventory
+PROVIDERS+=nxOMSAutomationWorker
+endif
+
+#List of Providers for DSC that are not in OMS
+DSCPROVIDERS:=nxScript
+DSCPROVIDERS+=nxFile
+DSCPROVIDERS+=nxFileLine
+DSCPROVIDERS+=nxArchive
+DSCPROVIDERS+=nxEnvironment
+DSCPROVIDERS+=nxSshAuthorizedKeys
+
+
 echo "~~~~~~~~~ Iterating on Providers - size = " ${#PROVIDERS[@]}
 for prov in ${{PROVIDERS}}; do
 #if BUILD_OMS == 1
