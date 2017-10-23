@@ -97,7 +97,6 @@ PROVIDERS+=nxFileInventory
 PROVIDERS+=nxOMSAutomationWorker
 endif
 
-echo "Adding DSCPROVIDERS"
 #List of Providers for DSC that are not in OMS
 DSCPROVIDERS:=nxScript
 DSCPROVIDERS+=nxFile
@@ -105,7 +104,6 @@ DSCPROVIDERS+=nxFileLine
 DSCPROVIDERS+=nxArchive
 DSCPROVIDERS+=nxEnvironment
 DSCPROVIDERS+=nxSshAuthorizedKeys
-echo "Added DSCPROVIDERS size=" ${#DSCPROVIDERS[@]}
 
 # this is used to enable the printing of xml style tags for help in debugging
 PRINT_BOOKENDS?=0
