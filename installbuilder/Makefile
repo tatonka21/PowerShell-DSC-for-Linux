@@ -20,12 +20,14 @@ ifeq ($(BUILD_OMS_VAL),1)
 SHORT_NAME=omsconfig
 LONG_NAME=Operations Management Suite Agent Configuration
 PROVIDES=dscpkg
+PROVIDERS=
 DESCRIPTION=Operations Management Suite Agent Configuration
 RUN_AS_USER=omsagent
 else
 SHORT_NAME=dsc
 LONG_NAME=Windows Powershell Desired State Configuration for Linux
 PROVIDES=dscpackage
+PROVIDERS=
 DESCRIPTION=Windows Powershell Desired State Configuration for Linux
 RUN_AS_USER=root
 endif
@@ -34,45 +36,6 @@ DPKG_LOCATION="--DPKG_LOCATION=$(IB_DIR)/tools/bin/dpkg-deb-$(PF_ARCH)"
 else
 DPKG_LOCATION=
 endif
-SHORT_NAME_DSC=dsc
-
-# list of providers
-PROVIDERS:=nxUser
-PROVIDERS+=nxGroup
-PROVIDERS+=nxService
-PROVIDERS+=nxPackage
-PROVIDERS+=nxAvailableUpdates
-PROVIDERS+=nxFileInventory
-PROVIDERS+=nxOMSAutomationWorker
-
-ifeq ($(BUILD_OMS),BUILD_OMS)
-PROVIDERS+=nxOMSPerfCounter
-PROVIDERS+=nxOMSSyslog
-PROVIDERS+=nxOMSCustomLog
-PROVIDERS+=nxOMSSudoCustomLog
-PROVIDERS+=nxOMSGenerateInventoryMof
-PROVIDERS+=nxOMSPlugin
-PROVIDERS+=nxOMSKeyMgmt
-PROVIDERS+=nxOMSAgentNPMConfig
-PROVIDERS+=nxOMSAuditdPlugin
-PROVIDERS+=nxOMSContainers
-else
-PROVIDERS+=nxIPAddress
-PROVIDERS+=nxComputer
-PROVIDERS+=nxFirewall
-PROVIDERS+=nxDNSServerAddress
-PROVIDERS+=nxMySqlDatabase
-PROVIDERS+=nxMySqlGrant
-PROVIDERS+=nxMySqlUser
-endif
-
-#List of Providers for DSC that are not in OMS
-DSCPROVIDERS:=nxScript
-DSCPROVIDERS+=nxFile
-SCPROVIDERS+=nxFileLine
-DSCPROVIDERS+=nxArchive
-DSCPROVIDERS+=nxEnvironment
-DSCPROVIDERS+=nxSshAuthorizedKeys
 
 all:
 ifeq ($(BUILD_RPM),1)
@@ -94,7 +57,6 @@ ifeq ($(BUILD_RPM),1)
 		--RELEASE=$(DSC_BUILDVERSION_BUILDNR) \
 		--BUILD_OMS=$(BUILD_OMS_VAL) \
 		--SHORT_NAME=$(SHORT_NAME) \
-		--SHORT_NAME_DSC=$(SHORT_NAME_DSC) \
 		--LONG_NAME="$(LONG_NAME)" \
 		--PROVIDES=$(PROVIDES) \
 		--PROVIDERS="$(PROVIDERS)" \

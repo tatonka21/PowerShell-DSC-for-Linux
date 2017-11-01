@@ -18,6 +18,7 @@ MKDEP:=-MD
 TOP?=$(shell cd ..; pwd)
 OMI_PATH?=$(TOP)/omi-1.0.8
 PROVIDER_PATH?=$(TOP)/Providers
+OMS_PROVIDER_PATH?=/opt/microsoft/omsconfig/lib
 
 # define the root output path
 BIN_PATH:=$(PROVIDER_PATH)/bin
@@ -62,46 +63,42 @@ GENERATED_SOURCES+=schema.c
 GENERATED_OBJS:=$(GENERATED_SOURCES:.c=.o)
 
 # list of providers
+PROVIDERS:=nxUser
+PROVIDERS+=nxGroup
+PROVIDERS+=nxService
+PROVIDERS+=nxPackage
+PROVIDERS+=nxAvailableUpdates
+PROVIDERS+=nxFileInventory
+PROVIDERS+=nxOMSAutomationWorker
+
 ifeq ($(BUILD_OMS),BUILD_OMS)
-PROVIDERS:=nxOMSPerfCounter
+PROVIDERS+=nxOMSPerfCounter
 PROVIDERS+=nxOMSSyslog
 PROVIDERS+=nxOMSCustomLog
 PROVIDERS+=nxOMSSudoCustomLog
 PROVIDERS+=nxOMSGenerateInventoryMof
-PROVIDERS+=nxService
-PROVIDERS+=nxPackage
-PROVIDERS+=nxUser
-PROVIDERS+=nxGroup
 PROVIDERS+=nxOMSPlugin
-PROVIDERS+=nxAvailableUpdates
 PROVIDERS+=nxOMSKeyMgmt
-PROVIDERS+=nxFileInventory
-PROVIDERS+=nxOMSAutomationWorker
 PROVIDERS+=nxOMSAgentNPMConfig
 PROVIDERS+=nxOMSAuditdPlugin
 PROVIDERS+=nxOMSContainers
 else
-PROVIDERS:=nxFile
-PROVIDERS+=nxScript
-PROVIDERS+=nxUser
-PROVIDERS+=nxGroup
-PROVIDERS+=nxService
-PROVIDERS+=nxPackage
-PROVIDERS+=nxEnvironment
-PROVIDERS+=nxSshAuthorizedKeys
 PROVIDERS+=nxIPAddress
 PROVIDERS+=nxComputer
 PROVIDERS+=nxFirewall
 PROVIDERS+=nxDNSServerAddress
-PROVIDERS+=nxFileLine
-PROVIDERS+=nxArchive
 PROVIDERS+=nxMySqlDatabase
 PROVIDERS+=nxMySqlGrant
 PROVIDERS+=nxMySqlUser
-PROVIDERS+=nxAvailableUpdates
-PROVIDERS+=nxFileInventory
-PROVIDERS+=nxOMSAutomationWorker
 endif
+
+#List of Providers for DSC that are not in OMS
+DSCPROVIDERS:=nxScript
+DSCPROVIDERS+=nxFile
+DSCPROVIDERS+=nxFileLine
+DSCPROVIDERS+=nxArchive
+DSCPROVIDERS+=nxEnvironment
+DSCPROVIDERS+=nxSshAuthorizedKeys
 
 # this is used to enable the printing of xml style tags for help in debugging
 PRINT_BOOKENDS?=0
@@ -132,6 +129,7 @@ define REGISTER-PROVIDER
 	    $(OMI_CONFIG_PATH)/schema/MSFT_$1Resource/MSFT_$1$(SCHEMA); \
 	$(COPY) $(PROVIDER_PATH)/$1/MSFT_$1$(REGISTER) \
 	    $(OMI_CONFIG_PATH)/registration/MSFT_$1Resource/MSFT_$1$(REGISTER); \
+	echo "*****************" $(OMI_REG) $(BIN_PATH)/libMSFT_$1Resource.so;
 	$(OMI_REG) $(BIN_PATH)/libMSFT_$1Resource.so;
 endef
 
@@ -147,6 +145,7 @@ reg :
 	$(COPY) -R $(TOP)/intermediate/Scripts/*.py $(TOP)/intermediate/Scripts/*.sh $(DSC_SCRIPT_PATH)
 	chmod a+x $(DSC_SCRIPT_PATH)/*.py $(DSC_SCRIPT_PATH)/*.sh
 	@$(foreach provider,$(PROVIDERS),$(call REGISTER-PROVIDER,$(provider)))
+	@$(foreach dscprovider,$(DSCPROVIDERS),$(call REGISTER-PROVIDER,$(dscprovider)))
 
 
 # compile rule
@@ -209,7 +208,7 @@ endef
 $(foreach provider,$(PROVIDERS),\
     $(eval $(call PER-PROVIDER-RULES,$(provider))))
 
-$(foreach provider,$(TEST_PROVIDERS),\
+$(foreach provider,$(DSCPROVIDERS),\
     $(eval $(call PER-PROVIDER-RULES,$(provider))))
 
 # miscellaneous rules
