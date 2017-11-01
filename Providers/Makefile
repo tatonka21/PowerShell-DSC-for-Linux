@@ -116,8 +116,8 @@ OMI_BIN_PATH:=$(CONFIG_BINDIR)
 OMI_LIB_PATH:=$(CONFIG_LIBDIR)
 OMI_CONFIG_PATH:=$(CONFIG_SYSCONFDIR)/dsc/configuration
 OMI_REG_PATH:=$(BIN_PATH)/omi
-OMI_REG:=$(OMI_BIN_PATH)/omireg -n root/Microsoft/DesiredStateConfiguration \
-	-o @requestor@
+OMI_REG:=$(OMI_BIN_PATH)/omireg --namespace root/Microsoft/DesiredStateConfiguration \
+	-hosting @requestor@ --link
 SCHEMA:=Resource.schema.mof
 REGISTER:=Resource.registration.mof
 
@@ -130,7 +130,12 @@ define REGISTER-PROVIDER
 	$(COPY) $(PROVIDER_PATH)/$1/MSFT_$1$(REGISTER) \
 	    $(OMI_CONFIG_PATH)/registration/MSFT_$1Resource/MSFT_$1$(REGISTER); \
 	echo "*****************" $(OMI_REG) $(BIN_PATH)/libMSFT_$1Resource.so;
-	$(OMI_REG) $(BIN_PATH)/libMSFT_$1Resource.so;
+ifneq ($(BUILD_OMS),BUILD_OMS)
+	ORINGINAL_SO_PATH:=$(BIN_PATH)/libMSFT_$1Resource.so ;\
+	NEW_SO_PATH:=$(BIN_PATH)/libMSFT_$1Resource.DSC.so ;\
+	$(COPY) $(ORINGINAL_SO_PATH) $(NEW_SO_PATH); \
+endif
+	$(OMI_REG) $(NEW_SO_PATH);
 endef
 
 .PHONY: reg
