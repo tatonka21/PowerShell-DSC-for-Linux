@@ -40,7 +40,7 @@ class HttpClientFactory:
                 raise InvalidFilePermissionException(configuration.get_proxy_configuration_path())
             else:
                 proxy_conf_file = open(configuration.get_proxy_configuration_path(), "r")
-                proxy_configuration = proxy_conf_file.readline().strip()
+                proxy_configuration = proxy_conf_file.readline(5_000_000).strip()
                 if proxy_configuration != "":
                     self.proxy_configuration = proxy_configuration
                 proxy_conf_file.close()
