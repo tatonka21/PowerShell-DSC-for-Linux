@@ -10,6 +10,7 @@ import codecs
 import subprocess
 import platform
 import re
+from security import safe_command
 
 protocol = imp.load_source('protocol', '../protocol.py')
 nxDSCLog = imp.load_source('nxDSCLog', '../nxDSCLog.py')
@@ -192,7 +193,7 @@ def Set(WorkspaceId, Ensure):
     args.append(outconf_name)
     args.append(outconf_path)
     args.append(rules_diff_path)
-    proc = subprocess.Popen(args, -1, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = safe_command.run(subprocess.Popen, args, -1, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     exit_code = proc.wait()
     if exit_code != 0:
         out_txt = proc.stdout.read().decode('utf8', 'replace').encode('utf8', 'replace')
@@ -387,7 +388,7 @@ def GetState(WorkspaceId):
     args.append(SUDO_SCRIPT)
     args.append("get")
     args.append(GetTmpDir(WorkspaceId))
-    proc = subprocess.Popen(args, -1, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = safe_command.run(subprocess.Popen, args, -1, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     exit_code = proc.wait()
     out_txt = proc.stdout.read().decode('utf8', 'replace').encode('utf8', 'replace')
     if exit_code != 0:
