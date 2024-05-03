@@ -86,8 +86,6 @@ class NPMAgentUtil(IOMSAgent):
         else:
             LOG_ACTION.log(LogType.Error, 'Error setting capabilities to npmd agent binary.')
             return False
-
-global show_mof
 show_mof = False
 
 OMS_ACTION = OMSAgentUtil()

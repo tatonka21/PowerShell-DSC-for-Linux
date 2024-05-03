@@ -20,20 +20,6 @@ protocol = imp.load_source('protocol', '../protocol.py')
 nxDSCLog = imp.load_source('nxDSCLog', '../nxDSCLog.py')
 helperlib = imp.load_source('helperlib', '../helperlib.py')
 LG = nxDSCLog.DSCLog
-
-# [ClassVersion("1.0.0"),FriendlyName("nxService"), SupportsInventory()]
-# class MSFT_nxServiceResource : OMI_BaseResource
-# {
-#        [key, InventoryFilter] string Name;
-#        [write,required,ValueMap{"init", "upstart", "systemd"},Values{"init","upstart","systemd"}, InventoryFilter] string Controller;
-#        [write, InventoryFilter] boolean Enabled;
-#        [write,ValueMap{"Running", "Stopped"},Values{"Running", "Stopped"}, InventoryFilter] string State;
-#        [read] string Path;
-#        [read] string Description;
-#        [read] string Runlevels;
-# };
-
-global show_mof
 show_mof = False
 
 

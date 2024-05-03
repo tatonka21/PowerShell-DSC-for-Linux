@@ -28,8 +28,6 @@ except ImportError:
     md5const = md5.md5
 
 BLOCK_SIZE = 8192
-
-global show_mof
 show_mof = False
 
 

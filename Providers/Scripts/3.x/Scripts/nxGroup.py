@@ -16,21 +16,6 @@ protocol = imp.load_source('protocol', '../protocol.py')
 nxDSCLog = imp.load_source('nxDSCLog', '../nxDSCLog.py')
 helperlib = imp.load_source('helperlib', '../helperlib.py')
 LG = nxDSCLog.DSCLog
-
-# [ClassVersion("1.0.0"), FriendlyName("nxGroup"),SupportsInventory()]
-# class MSFT_nxGroupResource:OMI_BaseResource
-# {
-#        [Key, InventoryFilter] string GroupName;
-#        [write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] string Ensure;
-#        [write] string Members[];
-#        [write] string MembersToInclude[];
-#        [write] string MembersToExclude[];
-#        [write] string PreferredGroupID;
-#        [read] string GroupID;
- 
-# };
-
-global show_mof
 show_mof = False
 
 

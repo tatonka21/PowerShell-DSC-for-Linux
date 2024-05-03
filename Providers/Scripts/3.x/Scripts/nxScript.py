@@ -19,15 +19,6 @@ import codecs
 protocol = imp.load_source('protocol', '../protocol.py')
 nxDSCLog = imp.load_source('nxDSCLog', '../nxDSCLog.py')
 LG = nxDSCLog.DSCLog
-
-# 	[Key] string GetScript;
-# 	[Key] string SetScript;
-# 	[Key] string TestScript;
-# 	[write] string User;
-# 	[write] string Group;
-# 	[Read] string Result;
-
-global show_mof
 show_mof = False
 
 

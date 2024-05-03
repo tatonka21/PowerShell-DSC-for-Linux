@@ -15,22 +15,6 @@ protocol = imp.load_source('protocol', '../protocol.py')
 nxDSCLog = imp.load_source('nxDSCLog', '../nxDSCLog.py')
 helperlib = imp.load_source('helperlib', '../helperlib.py')
 LG = nxDSCLog.DSCLog
-
-# [ClassVersion("1.0.0"), FriendlyName("nxUser"),SupportsInventory()]
-# class MSFT_nxUserResource : OMI_BaseResource
-# {
-#        [Key, InventoryFilter] string UserName;
-#        [write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] string Ensure;
-#        [write, InventoryFilter] string FullName;
-#        [write, InventoryFilter] string Description;
-#        [write] string Password;
-#        [write] boolean Disabled;
-#        [write] boolean PasswordChangeRequired;
-#        [write] string HomeDirectory;
-#        [write] string GroupID;
-#        [read] string UserID;
-# };
-global show_mof
 show_mof = False
 
 

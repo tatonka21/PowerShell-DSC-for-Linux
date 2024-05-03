@@ -10,8 +10,6 @@ import imp
 protocol = imp.load_source('protocol', '../protocol.py')
 nxDSCLog = imp.load_source('nxDSCLog', '../nxDSCLog.py')
 LG = nxDSCLog.DSCLog
-
-global show_mof
 show_mof = False
 
 # [Key] string Name;

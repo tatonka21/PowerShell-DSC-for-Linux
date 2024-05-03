@@ -51,7 +51,6 @@ LG = nxDSCLog.DSCLog
 # };
 
 cache_file_dir = '/var/opt/microsoft/dsc/cache/nxPackage'
-global show_mof
 show_mof = False
 
 

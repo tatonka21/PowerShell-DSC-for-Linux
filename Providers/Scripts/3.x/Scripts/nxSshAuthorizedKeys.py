@@ -15,13 +15,6 @@ import imp
 protocol = imp.load_source('protocol', '../protocol.py')
 nxDSCLog = imp.load_source('nxDSCLog', '../nxDSCLog.py')
 LG = nxDSCLog.DSCLog
-
-# [Key] string KeyComment;
-# [write,ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] string Ensure;
-# [write] string UserName;
-# [write] string Key;
-
-global show_mof
 show_mof = False
 
 
