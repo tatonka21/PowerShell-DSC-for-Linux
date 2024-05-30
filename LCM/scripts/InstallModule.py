@@ -121,7 +121,7 @@ def main(args):
         zipIncludesModuleFolder = False
 
         for moduleZipMemberName in moduleZipFile.namelist():
-            if moduleZipMemberName.startswith('/') or moduleZipMemberName.startswith('..'):
+            if moduleZipMemberName.startswith(('/', '..')):
                 exitWithError("The provided module zip file contains at least one file with an invalid name that starts with '/' or '..'. The first invalid file is named " + moduleZipMemberName + ". Please ensure that all files have valid names.")
 
             if moduleZipMemberName.startswith(moduleName + "/"):

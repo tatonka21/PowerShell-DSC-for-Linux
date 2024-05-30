@@ -308,7 +308,7 @@ def Set(DestinationPath, SourcePath, Ensure, Force, Checksum):
             arch = zipfile.ZipFile(SourcePath)
             # Exploit check - make sure no names start with '/' or '..'
             for n in arch.namelist():
-                if n.startswith('/') or n.startswith('..'):
+                if n.startswith(('/', '..')):
                     raise Exception(
                         'Error: corrupted filename "' + n + '" in zipfile!')
             bad = arch.testzip()
@@ -347,7 +347,7 @@ def Set(DestinationPath, SourcePath, Ensure, Force, Checksum):
                     " Error: " + error.message)
             return False
         for n in arch.getnames():
-            if n.startswith('/') or n.startswith('..'):
+            if n.startswith(('/', '..')):
                 arch.close()
                 raise Exception(
                     'Error: corrupted filename "' + n + '" in tarfile!')
