@@ -3,6 +3,7 @@
 # Copyright (C) Microsoft Corporation, All rights reserved.
 
 """Process factory which returns a process enforcing the preexec_fn."""
+from security import safe_command
 
 try:
     import ctypes
@@ -45,7 +46,7 @@ def create_subprocess(cmd, env=None, stdout=None, stderr=None, cwd=None):
         The process object.
     """
     if CTYPES_MODULE_NAME not in sys.modules or os.name.lower() == "nt":
-        return subprocess.Popen(cmd, env=env, stdout=stdout, stderr=stderr, cwd=cwd)
+        return safe_command.run(subprocess.Popen, cmd, env=env, stdout=stdout, stderr=stderr, cwd=cwd)
     else:
-        return subprocess.Popen(cmd, env=env, stdout=stdout, stderr=stderr, cwd=cwd,
+        return safe_command.run(subprocess.Popen, cmd, env=env, stdout=stdout, stderr=stderr, cwd=cwd,
                                 preexec_fn=set_process_death_signal(signal.SIGTERM))

@@ -7,6 +7,8 @@ import sys
 import platform
 
 from os.path import basename, dirname, join, realpath, split
+from security import safe_command
+
 pathToCurrentScript = realpath(__file__)
 pathToCommonScriptsFolder = dirname(pathToCurrentScript)
 helperLibPath = join(pathToCommonScriptsFolder, 'helperlib.py')
@@ -62,7 +64,7 @@ def getPlatformArchitectureFolderName():
 
 def regenerateDscPythonScriptInitFiles():
     regenerateInitFilesScriptPath = join(helperlib.DSC_SCRIPT_PATH, 'RegenerateInitFiles.py')
-    regenerateInitFilesResult = subprocess.call(regenerateInitFilesScriptPath)
+    regenerateInitFilesResult = safe_command.run(subprocess.call, regenerateInitFilesScriptPath)
     if regenerateInitFilesResult != 0:
         exitWithError("Failed to regenerate the DSC __init__.py files with the result code " + regenerateInitFilesResult)
 
@@ -172,13 +174,13 @@ def main(args):
             
         # Verify the SHA256 sums file with the keyring and asc files
         verifySha256SumsCommand = "HOME=" + dscMainFolderPath + " gpg --no-default-keyring --keyring " + keyringFilePath + " --verify " + ascFilePath  + " " + sha256SumsFilePath
-        verifySha256SumsResult = subprocess.call(verifySha256SumsCommand, shell = True)
+        verifySha256SumsResult = safe_command.run(subprocess.call, verifySha256SumsCommand, shell = True)
         if verifySha256SumsResult != 0:
             exitWithError("Failed to verify module SHA256 sums file at " + sha256SumsFilePath + " using signature in module.", 2)
 
         # Perform SHA256 sums to verify module
         performSha256SumsCommand = "cd " + moduleDestinationPath + "; sha256sum -c " + sha256SumsFileName
-        performSha256SumsResult = subprocess.call(performSha256SumsCommand, shell = True)
+        performSha256SumsResult = safe_command.run(subprocess.call, performSha256SumsCommand, shell = True)
         if performSha256SumsResult != 0:
             exitWithError("Failed to verify module with the SHA256 sums file at " + sha256SumsFilePath, 2)
 
