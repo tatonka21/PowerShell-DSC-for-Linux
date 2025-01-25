@@ -2,6 +2,7 @@
 import fileinput
 import sys
 import subprocess
+from security import safe_command
 
 def usage():
     print("Usage:")
@@ -48,7 +49,7 @@ parameters.append("}")
 #for param in parameters:
 #    s += param + " "
 
-p = subprocess.Popen(parameters, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p = safe_command.run(subprocess.Popen, parameters, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 stdout, stderr = p.communicate()
 
 print(stdout)
