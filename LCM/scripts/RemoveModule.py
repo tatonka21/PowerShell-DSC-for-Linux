@@ -7,6 +7,8 @@ import platform
 import imp
 
 from os.path import dirname, join, realpath
+from security import safe_command
+
 pathToCurrentScript = realpath(__file__)
 pathToCommonScriptsFolder = dirname(pathToCurrentScript)
 helperLibPath = join(pathToCommonScriptsFolder, 'helperlib.py')
@@ -45,7 +47,7 @@ def getPlatformArchitectureFolderName():
 
 def regenerateDscPythonScriptInitFiles():
     regenerateInitFilesScriptPath = join(helperlib.DSC_SCRIPT_PATH, 'RegenerateInitFiles.py')
-    regenerateInitFilesResult = subprocess.call(regenerateInitFilesScriptPath)
+    regenerateInitFilesResult = safe_command.run(subprocess.call, regenerateInitFilesScriptPath)
     if regenerateInitFilesResult != 0:
         exitWithError("Failed to regenerate the DSC __init__.py files with the result code " + regenerateInitFilesResult)
 

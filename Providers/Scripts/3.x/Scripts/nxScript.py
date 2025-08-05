@@ -16,6 +16,8 @@ import stat
 import tempfile
 import imp
 import codecs
+from security import safe_command
+
 protocol = imp.load_source('protocol', '../protocol.py')
 nxDSCLog = imp.load_source('nxDSCLog', '../nxDSCLog.py')
 LG = nxDSCLog.DSCLog
@@ -224,7 +226,7 @@ def Set(GetScript, SetScript, TestScript, User, Group):
     os.chmod(path, stat.S_IXUSR | stat.S_IRUSR | stat.S_IXGRP | stat.S_IRGRP)
     os.chown(path, uid, gid)
 
-    proc = subprocess.Popen(command, stdout=subprocess.PIPE,
+    proc = safe_command.run(subprocess.Popen, command, stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, preexec_fn=PreExec(uid, gid, User))
     exit_code = proc.wait()
     Print("stdout: " + proc.stdout.read().decode('utf8', 'replace'))
@@ -264,7 +266,7 @@ def Test(GetScript, SetScript, TestScript, User, Group):
     os.chmod(path, stat.S_IXUSR | stat.S_IRUSR | stat.S_IXGRP | stat.S_IRGRP)
     os.chown(path, uid, gid)
 
-    proc = subprocess.Popen(command, stdout=subprocess.PIPE,
+    proc = safe_command.run(subprocess.Popen, command, stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, preexec_fn=PreExec(uid, gid, User))
     exit_code = proc.wait()
     Print("stdout: " + proc.stdout.read().decode('utf8', 'replace'))
@@ -305,7 +307,7 @@ def Get(GetScript, SetScript, TestScript, User, Group):
     os.chmod(path, stat.S_IXUSR | stat.S_IRUSR | stat.S_IXGRP | stat.S_IRGRP)
     os.chown(path, uid, gid)
 
-    proc = subprocess.Popen(command, stdout=subprocess.PIPE,
+    proc = safe_command.run(subprocess.Popen, command, stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, preexec_fn=PreExec(uid, gid, User))
     exit_code = proc.wait()
     Result = proc.stdout.read().decode('utf8', 'replace')

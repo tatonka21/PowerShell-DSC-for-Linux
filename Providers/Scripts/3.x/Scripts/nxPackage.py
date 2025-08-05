@@ -14,6 +14,8 @@ import urllib.request
 import copy
 import fnmatch
 import re
+from security import safe_command
+
 apt = None
 rpm = None
 try:
@@ -717,7 +719,7 @@ def RunGetOutput(cmd, no_output, chk_err=True):
             out_file = None
         else:
             out_file = subprocess.PIPE
-        process = subprocess.Popen(stdout=out_file, *popenargs, **kwargs)
+        process = safe_command.run(subprocess.Popen, stdout=out_file, *popenargs, **kwargs)
         output, unused_err = process.communicate()
         retcode = process.poll()
         if retcode:

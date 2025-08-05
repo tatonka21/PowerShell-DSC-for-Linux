@@ -11,6 +11,7 @@ import sys
 import socket
 import re
 from functools import reduce
+from security import safe_command
 
 protocol = imp.load_source('protocol', '../protocol.py')
 nxDSCLog = imp.load_source('nxDSCLog', '../nxDSCLog.py')
@@ -246,7 +247,7 @@ def RunGetOutput(cmd, no_output, chk_err=True):
             out_file = None
         else:
             out_file = subprocess.PIPE
-        process = subprocess.Popen(stdout=out_file, *popenargs, **kwargs)
+        process = safe_command.run(subprocess.Popen, stdout=out_file, *popenargs, **kwargs)
         output, unused_err = process.communicate()
         retcode = process.poll()
         if retcode:
