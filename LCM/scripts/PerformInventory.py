@@ -7,6 +7,7 @@ import fcntl
 import shutil
 import stat
 from xml.dom.minidom import parse
+from security import safe_command
 
 def usage():
    print("""Usage: PerformInventory.py [OPTIONS]
@@ -113,7 +114,7 @@ fcntl.flock(inventory_lock, fcntl.LOCK_EX)
 
 os.system("rm -f " + dsc_reportdir + "/*")
 
-p = subprocess.Popen(parameters, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p = safe_command.run(subprocess.Popen, parameters, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 stdout, stderr = p.communicate()
 retval = p.returncode
 
